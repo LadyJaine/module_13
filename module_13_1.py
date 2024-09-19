@@ -1,4 +1,3 @@
-from time import sleep
 import asyncio
 async def start_strongman(name:str, power:int):
     print(f'Силач {name} начал соревнования.')
