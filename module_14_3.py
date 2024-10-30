@@ -1,24 +1,20 @@
 from aiogram import Bot,Dispatcher,executor,types
-import asyncio
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import os
-
-
 import texts
 from admin import *
 from crud_functions import *
 
 initiate_db()
 
-API = ''
+API = '7644570710:AAHlkQaeYgq43y5LR0gAsDeW6kc1C-9OaPk'
 bot = Bot(token = API)
 dp = Dispatcher(bot,storage=MemoryStorage())
 
-get_all_product()
+
 start_bar = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Рассчитать'),
                                           KeyboardButton(text='Информация'),
                                           KeyboardButton(text='Купить')]],resize_keyboard=True)
@@ -45,13 +41,15 @@ async def main_menu(message):
 
 @dp.message_handler(text='Купить')
 async def get_buying_list(message):
-    os.chdir(r'C:\Users\Евгения\PycharmProjects\Module_13_asinc\files')
-    file = [f for f in os.listdir() if os.path.isfile(f)]
-    for index, product in enumerate(get_all_product()):
+    index = 1
+    for product in get_all_product():
         await message.answer(f'Название: {product[1]} | Описание: описание {product[2]} | Цена: {product[3]} ')
-        with open(f'viorgon_{index+1}.jpeg', 'rb') as photo:
+        with open(f'files/viorgon_{index}.jpeg', 'rb') as photo:
             await message.answer_photo(photo)
+        index += 1
     await message.answer("Выберите продукт для покупки:",reply_markup=product_kb)
+
+
 @dp.message_handler(text='Рассчитать')
 async def mainmenu(message):
     await message.answer('Выберите опцию',reply_markup=kb)
